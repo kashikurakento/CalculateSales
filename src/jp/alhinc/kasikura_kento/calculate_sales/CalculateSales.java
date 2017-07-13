@@ -31,7 +31,7 @@ public class CalculateSales {
 //支店定義ファイル読み込み
 
 		try {
-			file = new File(args[0] + "\\branch.lst");
+			file = new File(args[0] + File.separator + "branch.lst");
 			if (!file.exists()) {
 				System.out.println("支店定義ファイルが存在しません");
 				return;
@@ -62,7 +62,7 @@ public class CalculateSales {
 //商品定義ファイル読み込み
 
 		try {
-			file = new File(args[0] + "\\commodity.lst");
+			file = new File(args[0] + File.separator + "commodity.lst");
 			if (!file.exists()) {
 				System.out.println("商品定義ファイルが存在しません");
 				return;
@@ -174,10 +174,7 @@ public class CalculateSales {
 				return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 			}
 		});
-//		System.out.println("支店別売上集計（売上降順）\n");
-//		for (Entry<String,Long> s : entries) {
-//			System.out.println( s.getKey() + "," + branchname.get(s.getKey()) + "," + s.getValue());
-//		}
+
 
 	//商品ソート売上降順
 		List<Map.Entry<String,Long>> entries2 = new ArrayList<Map.Entry<String,Long>>(commoditysale.entrySet());
@@ -186,17 +183,14 @@ public class CalculateSales {
 				return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 			}
 		});
-//		System.out.println("\n\n商品別売上集計（売上降順）\n");
-//		for (Entry<String,Long> s : entries2) {
-//			System.out.println( s.getKey() + "," + commodityname.get(s.getKey()) + "," + s.getValue());
-//		}
+
 		//ファイルを作成し、実際に出力
 		FileWriter fw = null;
 		BufferedWriter bw =null;
 		try{
 			File newfile = new File(args[0]+ File.separator +"branch.out");
 			newfile.createNewFile();
-			File bsf = new File(args[0]+"\\branch.out");
+			File bsf = new File(args[0]+ File.separator + "branch.out");
 			fw = new FileWriter(bsf);
 			bw = new BufferedWriter(fw);
 			for (Entry<String,Long> s : entries){
@@ -217,7 +211,7 @@ public class CalculateSales {
 		try{
 			File newfile = new File(args[0]+ File.separator +"commodity.out");
 			newfile.createNewFile();
-			File csf = new File(args[0]+"\\commodity.out");
+			File csf = new File(args[0]+ File.separator + "commodity.out");
 			fw = new FileWriter(csf);
 			bw = new BufferedWriter(fw);
 			for (Entry<String,Long> s : entries2){
