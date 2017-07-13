@@ -49,13 +49,13 @@ public class CalculateSales {
 				branchsale.put(branches[0],0L);
 			}
 		} catch(IOException e) {
-			System.out.println( "集計結果ファイルを作成しない");
+			System.out.println("予期せぬエラーが発生しました");
 		} finally {
 			if(br !=null)
 				try{
 					br.close();
 				}  catch(IOException e) {
-					System.out.println( "集計結果ファイルを作成しない");
+					System.out.println("予期せぬエラーが発生しました");
 				}
 		}
 
@@ -80,50 +80,42 @@ public class CalculateSales {
 				commoditysale.put(commodities[0], 0L);
 			}
 		} catch(IOException e) {
-			System.out.println( "集計結果ファイルを作成しない");
+			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}  finally {
 			if(br != null);
 			try{
 				br.close();
 			} catch (IOException e) {
-				System.out.println( "集計結果ファイルを作成しない");
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 
 //売上集計
 
 		try{
-			int i = 0;
-			int n = 0;
-			int t = 0;
 			file = new File(args[0]);
 			File f[] = file.listFiles();
 			List<File> files  = new ArrayList<File>();
-			while(i < f.length){
+			for(int i = 0;i < f.length; i++){
 				if(f[i].getName().matches("\\d{8}.rcd") ){
 					files.add(f[i]);
-					i++;
-				} else {
-					i++;
 				}
 			}
 			List<Integer> numbercheck = new ArrayList<Integer>();
-			while(t < files.size()){
-				String[] filesNumber = f[t].getName().split("\\.");
-				int c = Integer.parseInt(filesNumber[0]);
-				numbercheck.add(c);
-				t++;
+			for(int i = 0; i < files.size(); i++){
+				String[] filesNumber = f[i].getName().split("\\.");
+				int n = Integer.parseInt(filesNumber[0]);
+				numbercheck.add(n);
 			}
-			int c = 0;
-			while(c < numbercheck.size()){
-				if(numbercheck.get(c+1) - numbercheck.get(c) != 1){
+			for(int i = 1;i < numbercheck.size(); i++){
+				if(numbercheck.get(i) - numbercheck.get(i-1) != 1 ){
 					System.out.println("売上ファイル名が連番になっていません");
 					return;
 				}
 			}
-			while(n < files.size()){
-				fr = new FileReader(files.get(n));
+			for(int i = 0;i < files.size();i++){
+				fr = new FileReader(files.get(i));
 				br = new BufferedReader(fr);
 				String s;
 				List<String> rcdRead = new ArrayList<String>();
@@ -131,15 +123,15 @@ public class CalculateSales {
 					rcdRead.add(s);
 				}
 				if (rcdRead.size() != 3){
-					System.out.println(f[n].getName() + "のフォーマットが不正です");
+					System.out.println(f[i].getName() + "のフォーマットが不正です");
 					return;
 				}
 				if(branchsale.get(rcdRead.get(0)) == null){
-					System.out.println(f[n].getName() + "の支店コードが不正です");
+					System.out.println(f[i].getName() + "の支店コードが不正です");
 					return;
 				}
 				if(commoditysale.get(rcdRead.get(1)) == null){
-					System.out.println(f[n].getName() + "の商品コードが不正です");
+					System.out.println(f[i].getName() + "の商品コードが不正です");
 					return;
 				}
 				Long branchsum = branchsale.get(rcdRead.get(0));
@@ -152,16 +144,15 @@ public class CalculateSales {
 				}
 				branchsale.put(rcdRead.get(0), branchsum);
 				commoditysale.put(rcdRead.get(1), commoditysum);
-				n++;
 			}
 		} catch(IOException e) {
-			System.out.println( "集計結果ファイルを作成しない");
+			System.out.println("予期せぬエラーが発生しました");
 		} finally {
 			if(br != null);
 			try{
 				br.close();
 			} catch(IOException e) {
-				System.out.println( "集計結果ファイルを作成しない");
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 
@@ -184,7 +175,7 @@ public class CalculateSales {
 			}
 		});
 
-		//ファイルを作成し、実際に出力
+	//ファイルを作成し、実際に出力
 		FileWriter fw = null;
 		BufferedWriter bw =null;
 		try{
@@ -205,7 +196,7 @@ public class CalculateSales {
 					bw.close();
 				}
 			} catch(IOException e) {
-				System.out.println("集計結果ファイルを作成しない");
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 		try{
@@ -225,7 +216,7 @@ public class CalculateSales {
 					bw.close();
 				}
 			} catch(IOException e) {
-				System.out.println("集計結果ファイルを作成しない");
+				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
 	}
