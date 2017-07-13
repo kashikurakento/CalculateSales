@@ -175,7 +175,7 @@ public class CalculateSales {
 			}
 		});
 
-	//ファイルを作成し、実際に出力
+	//ファイルを作成し、出力
 		FileWriter fw = null;
 		BufferedWriter bw =null;
 		try{
