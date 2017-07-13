@@ -95,27 +95,26 @@ public class CalculateSales {
 
 		try{
 			file = new File(args[0]);
-			File f[] = file.listFiles();
-			List<File> files  = new ArrayList<File>();
-			for(int i = 0;i < f.length; i++){
-				if(f[i].getName().matches("\\d{8}.rcd") ){
-					files.add(f[i]);
-				}
-			}
-			List<Integer> numbercheck = new ArrayList<Integer>();
-			for(int i = 0; i < files.size(); i++){
-				String[] filesNumber = f[i].getName().split("\\.");
-				int n = Integer.parseInt(filesNumber[0]);
-				numbercheck.add(n);
-			}
-			for(int i = 1;i < numbercheck.size(); i++){
-				if(numbercheck.get(i) - numbercheck.get(i-1) != 1 ){
+			File fileAll[] = file.listFiles();
+			List<File> filercd  = new ArrayList<File>();
+			for(int i = 0;i < fileAll.length; i++){
+				if(fileAll[i].getName().matches("\\d{8}.rcd") ){
+					filercd.add(fileAll[i]);
+					int n = Integer.parseInt(fileAll[i].getName().substring(0,8));
+					System.out.println(n);
+					int m = n - 1;
+					if(n - m != 1){
+						System.out.println("売上ファイル名が連番になっていません");
+						return;
+					}
+				} else if(!fileAll[i].getName().matches("branch.lst") && !fileAll[i].getName().matches("commodity.lst") &&
+						!fileAll[i].getName().matches("branch.out") && !fileAll[i].getName().matches("commodity.out")) {
 					System.out.println("売上ファイル名が連番になっていません");
 					return;
 				}
 			}
-			for(int i = 0;i < files.size();i++){
-				fr = new FileReader(files.get(i));
+			for(int i = 0;i < filercd.size();i++){
+				fr = new FileReader(filercd.get(i));
 				br = new BufferedReader(fr);
 				String s;
 				List<String> rcdRead = new ArrayList<String>();
@@ -123,15 +122,15 @@ public class CalculateSales {
 					rcdRead.add(s);
 				}
 				if (rcdRead.size() != 3){
-					System.out.println(f[i].getName() + "のフォーマットが不正です");
+					System.out.println(fileAll[i].getName() + "のフォーマットが不正です");
 					return;
 				}
 				if(branchsale.get(rcdRead.get(0)) == null){
-					System.out.println(f[i].getName() + "の支店コードが不正です");
+					System.out.println(fileAll[i].getName() + "の支店コードが不正です");
 					return;
 				}
 				if(commoditysale.get(rcdRead.get(1)) == null){
-					System.out.println(f[i].getName() + "の商品コードが不正です");
+					System.out.println(fileAll[i].getName() + "の商品コードが不正です");
 					return;
 				}
 				Long branchsum = branchsale.get(rcdRead.get(0));
@@ -175,7 +174,7 @@ public class CalculateSales {
 			}
 		});
 
-	//ファイルを作成し、出力
+	//ファイルを作成し、実際に出力
 		FileWriter fw = null;
 		BufferedWriter bw =null;
 		try{
@@ -197,6 +196,7 @@ public class CalculateSales {
 				}
 			} catch(IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			}
 		}
 		try{
@@ -217,6 +217,7 @@ public class CalculateSales {
 				}
 			} catch(IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			}
 		}
 	}
