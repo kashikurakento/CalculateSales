@@ -98,7 +98,7 @@ public class CalculateSales {
 						int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
 						int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
 						if(m - n != 1){
-							System.out.println("a売上ファイル名が連番になっていません");
+							System.out.println("売上ファイル名が連番になっていません");
 							return;
 						}
 					}
