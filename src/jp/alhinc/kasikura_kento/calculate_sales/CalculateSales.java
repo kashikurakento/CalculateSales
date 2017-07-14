@@ -27,7 +27,6 @@ public class CalculateSales {
 		File file = null;
 		FileReader fr = null;
 		BufferedReader br = null;
-
 //支店定義ファイル読み込み
 
 		try {
@@ -58,7 +57,6 @@ public class CalculateSales {
 					System.out.println("予期せぬエラーが発生しました");
 				}
 		}
-
 //商品定義ファイル読み込み
 
 		try {
@@ -90,9 +88,7 @@ public class CalculateSales {
 				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
-
 //売上集計
-
 		try{
 			file = new File(args[0]);
 			File fileAll[] = file.listFiles();
@@ -156,7 +152,6 @@ public class CalculateSales {
 				System.out.println("予期せぬエラーが発生しました");
 			}
 		}
-
 //出力
 	//支店ソート売上降順
 
@@ -166,8 +161,6 @@ public class CalculateSales {
 				return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 			}
 		});
-
-
 	//商品ソート売上降順
 		List<Map.Entry<String,Long>> entries2 = new ArrayList<Map.Entry<String,Long>>(commoditysale.entrySet());
 		Collections.sort(entries2, new Comparator<Map.Entry<String,Long>>() {
@@ -175,7 +168,6 @@ public class CalculateSales {
 				return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 			}
 		});
-
 	//ファイルを作成し、実際に出力
 		FileWriter fw = null;
 		BufferedWriter bw =null;
