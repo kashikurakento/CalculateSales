@@ -55,6 +55,7 @@ public class CalculateSales {
 					br.close();
 				}  catch(IOException e) {
 					System.out.println("予期せぬエラーが発生しました");
+					return;
 				}
 			}
 		}
