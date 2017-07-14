@@ -97,11 +97,7 @@ public class CalculateSales {
 			File fileAll[] = file.listFiles();
 			List<File> filercd  = new ArrayList<File>();
 			for(int i = 0;i < fileAll.length; i++){
-				if(fileAll[i].isDirectory()){
-					System.out.println("予期せぬエラーが発生しました");
-					return;
-				}
-				if(fileAll[i].getName().matches("\\d{8}.rcd") ){
+				if(fileAll[i].isFile() && fileAll[i].getName().matches("\\d{8}.rcd") ){
 					filercd.add(fileAll[i]);
 				}
 			}
@@ -133,7 +129,7 @@ public class CalculateSales {
 					System.out.println(fileAll[i].getName() + "の商品コードが不正です");
 					return;
 				}
-				if(!rcdRead.get(2).matches("\\d{0,10}")){
+				if(!rcdRead.get(2).matches("^[0-9]+$")){
 					System.out.println("予期せぬエラーがaaaaaa発生しました");
 					return;
 				}
