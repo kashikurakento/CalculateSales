@@ -130,7 +130,7 @@ public class CalculateSales {
 					return;
 				}
 				if(!rcdRead.get(2).matches("^[0-9]+$")){
-					System.out.println("予期せぬエラーがaaaaaa発生しました");
+					System.out.println("予期せぬエラーが発生しました");
 					return;
 				}
 				Long branchsum = branchsale.get(rcdRead.get(0));
