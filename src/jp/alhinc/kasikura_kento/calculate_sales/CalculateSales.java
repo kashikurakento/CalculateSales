@@ -116,11 +116,11 @@ public class CalculateSales {
 					System.out.println(fileAll[i].getName() + "のフォーマットが不正です");
 					return;
 				}
-				if(branchsale.get(rcdRead.get(0)) == null){
+				if(branchname.get(rcdRead.get(0)) == null){
 					System.out.println(fileAll[i].getName() + "の支店コードが不正です");
 					return;
 				}
-				if(commoditysale.get(rcdRead.get(1)) == null){
+				if(commodityname.get(rcdRead.get(1)) == null){
 					System.out.println(fileAll[i].getName() + "の商品コードが不正です");
 					return;
 				}
