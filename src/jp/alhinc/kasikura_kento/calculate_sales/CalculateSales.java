@@ -48,13 +48,15 @@ public class CalculateSales {
 			}
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		} finally {
-			if(br !=null)
+			if(br !=null){
 				try{
 					br.close();
 				}  catch(IOException e) {
 					System.out.println("予期せぬエラーが発生しました");
 				}
+			}
 		}
 //商品定義ファイル読み込み
 		try {
@@ -79,11 +81,13 @@ public class CalculateSales {
 			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}  finally {
-			if(br != null);
-			try{
-				br.close();
-			} catch (IOException e) {
-				System.out.println("予期せぬエラーが発生しました");
+			if(br != null);{
+				try{
+					br.close();
+				} catch (IOException e) {
+					System.out.println("予期せぬエラーが発生しました");
+					return;
+				}
 			}
 		}
 //売上集計
@@ -92,6 +96,10 @@ public class CalculateSales {
 			File fileAll[] = file.listFiles();
 			List<File> filercd  = new ArrayList<File>();
 			for(int i = 0;i < fileAll.length; i++){
+				if(fileAll[i].isDirectory()){
+					System.out.println("予期せぬエラーが発生しました");
+					return;
+				}
 				if(fileAll[i].getName().matches("\\d{8}.rcd") ){
 					filercd.add(fileAll[i]);
 				}
@@ -124,6 +132,10 @@ public class CalculateSales {
 					System.out.println(fileAll[i].getName() + "の商品コードが不正です");
 					return;
 				}
+				if(!rcdRead.get(2).matches("\\d{0,10}")){
+					System.out.println("予期せぬエラーがaaaaaa発生しました");
+					return;
+				}
 				Long branchsum = branchsale.get(rcdRead.get(0));
 				branchsum += Long.parseLong(rcdRead.get(2));
 				Long commoditysum = commoditysale.get(rcdRead.get(1));
@@ -137,12 +149,15 @@ public class CalculateSales {
 			}
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		} finally {
-			if(br != null);
-			try{
-				br.close();
-			} catch(IOException e) {
-				System.out.println("予期せぬエラーが発生しました");
+			if(br != null);{
+				try{
+					br.close();
+				} catch(IOException e) {
+					System.out.println("予期せぬエラーが発生しました");
+					return;
+				}
 			}
 		}
 //出力
@@ -175,14 +190,15 @@ public class CalculateSales {
 
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		} finally {
-			try{
-				if(bw != null){
+			if(bw != null){
+				try{
 					bw.close();
+				} catch(IOException e) {
+					System.out.println("予期せぬエラーが発生しました");
+					return;
 				}
-			} catch(IOException e) {
-				System.out.println("予期せぬエラーが発生しました");
-				return;
 			}
 		}
 		try{
@@ -196,14 +212,15 @@ public class CalculateSales {
 			}
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		} finally {
-			try{
-				if(bw != null){
+			if(bw != null){
+				try{
 					bw.close();
+				} catch(IOException e) {
+					System.out.println("予期せぬエラーが発生しました");
+					return;
 				}
-			} catch(IOException e) {
-				System.out.println("予期せぬエラーが発生しました");
-				return;
 			}
 		}
 	}
