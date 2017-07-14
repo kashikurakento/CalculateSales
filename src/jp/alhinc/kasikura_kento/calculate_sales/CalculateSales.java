@@ -31,7 +31,7 @@ public class CalculateSales {
 //支店定義ファイル読み込み
 
 		try {
-			file = new File(args[0] + File.separator + "branch.lst");
+			file = new File(args[0],"branch.lst");
 			if (!file.exists()) {
 				System.out.println("支店定義ファイルが存在しません");
 				return;
@@ -62,7 +62,7 @@ public class CalculateSales {
 //商品定義ファイル読み込み
 
 		try {
-			file = new File(args[0] + File.separator + "commodity.lst");
+			file = new File(args[0],"commodity.lst");
 			if (!file.exists()) {
 				System.out.println("商品定義ファイルが存在しません");
 				return;
@@ -100,17 +100,19 @@ public class CalculateSales {
 			for(int i = 0;i < fileAll.length; i++){
 				if(fileAll[i].getName().matches("\\d{8}.rcd") ){
 					filercd.add(fileAll[i]);
-					int n = Integer.parseInt(fileAll[i].getName().substring(0,8));
-					System.out.println(n);
-					int m = n - 1;
-					if(n - m != 1){
-						System.out.println("売上ファイル名が連番になっていません");
-						return;
-					}
 				} else if(!fileAll[i].getName().matches("branch.lst") && !fileAll[i].getName().matches("commodity.lst") &&
 						!fileAll[i].getName().matches("branch.out") && !fileAll[i].getName().matches("commodity.out")) {
 					System.out.println("売上ファイル名が連番になっていません");
 					return;
+				}
+			}
+			for(int i = 1;i < filercd.size(); i++){
+				int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
+				int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
+				System.out.println(n + "と" + m);
+				if(m - n != 1){
+					System.out.println(fileAll[i].getName() + "の売上ファイル名が連番になっていません");
+					return;		
 				}
 			}
 			for(int i = 0;i < filercd.size();i++){
@@ -178,9 +180,9 @@ public class CalculateSales {
 		FileWriter fw = null;
 		BufferedWriter bw =null;
 		try{
-			File newfile = new File(args[0]+ File.separator +"branch.out");
+			File newfile = new File(args[0],"branch.out");
 			newfile.createNewFile();
-			File bsf = new File(args[0]+ File.separator + "branch.out");
+			File bsf = new File(args[0],"branch.out");
 			fw = new FileWriter(bsf);
 			bw = new BufferedWriter(fw);
 			for (Entry<String,Long> s : entries){
@@ -200,9 +202,9 @@ public class CalculateSales {
 			}
 		}
 		try{
-			File newfile = new File(args[0]+ File.separator +"commodity.out");
+			File newfile = new File(args[0],"commodity.out");
 			newfile.createNewFile();
-			File csf = new File(args[0]+ File.separator + "commodity.out");
+			File csf = new File(args[0],"commodity.out");
 			fw = new FileWriter(csf);
 			bw = new BufferedWriter(fw);
 			for (Entry<String,Long> s : entries2){
