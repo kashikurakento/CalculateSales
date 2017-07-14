@@ -28,7 +28,6 @@ public class CalculateSales {
 		FileReader fr = null;
 		BufferedReader br = null;
 //支店定義ファイル読み込み
-
 		try {
 			file = new File(args[0],"branch.lst");
 			if (!file.exists()) {
@@ -58,7 +57,6 @@ public class CalculateSales {
 				}
 		}
 //商品定義ファイル読み込み
-
 		try {
 			file = new File(args[0],"commodity.lst");
 			if (!file.exists()) {
@@ -154,7 +152,6 @@ public class CalculateSales {
 		}
 //出力
 	//支店ソート売上降順
-
 		List<Map.Entry<String,Long>> entries = new ArrayList<Map.Entry<String,Long>>(branchsale.entrySet());
 		Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
 			public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
