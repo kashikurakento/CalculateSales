@@ -97,10 +97,9 @@ public class CalculateSales {
 					if(i > 0){
 						int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
 						int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
-						System.out.println(n + "と" + m);
 						if(m - n != 1){
-							System.out.println(fileAll[i].getName() + "の売上ファイル名が連番になっていません");
-							return;		
+							System.out.println("a売上ファイル名が連番になっていません");
+							return;
 						}
 					}
 				} else if(!fileAll[i].getName().matches("branch.lst") && !fileAll[i].getName().matches("commodity.lst") &&
