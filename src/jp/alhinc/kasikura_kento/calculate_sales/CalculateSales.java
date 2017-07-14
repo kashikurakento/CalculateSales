@@ -102,10 +102,6 @@ public class CalculateSales {
 							return;
 						}
 					}
-				} else if(!fileAll[i].getName().matches("branch.lst") && !fileAll[i].getName().matches("commodity.lst") &&
-						!fileAll[i].getName().matches("branch.out") && !fileAll[i].getName().matches("commodity.out")) {
-					System.out.println("売上ファイル名が連番になっていません");
-					return;
 				}
 			}
 			for(int i = 0;i < filercd.size();i++){
