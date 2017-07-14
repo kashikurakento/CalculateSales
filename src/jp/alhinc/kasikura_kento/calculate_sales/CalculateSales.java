@@ -94,14 +94,14 @@ public class CalculateSales {
 			for(int i = 0;i < fileAll.length; i++){
 				if(fileAll[i].getName().matches("\\d{8}.rcd") ){
 					filercd.add(fileAll[i]);
-					if(i > 0){
-						int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
-						int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
-						if(m - n != 1){
-							System.out.println("売上ファイル名が連番になっていません");
-							return;
-						}
-					}
+				}
+			}
+			for(int i = 1;i < filercd.size(); i++){
+				int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
+				int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
+				if(m - n != 1){
+					System.out.println( "売上ファイル名が連番になっていません");
+					return;
 				}
 			}
 			for(int i = 0;i < filercd.size();i++){
