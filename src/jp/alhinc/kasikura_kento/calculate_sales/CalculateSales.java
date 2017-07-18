@@ -145,7 +145,7 @@ public class CalculateSales {
 				branchSum += Long.parseLong(rcdReadLine.get(2));
 				Long commoditySum = commoditySale.get(rcdReadLine.get(1));
 				commoditySum += Long.parseLong(rcdReadLine.get(2));
-				if(!String.valueOf( branchSum ).matches("\\d{1,10}") || !String.valueOf( commoditySum ).matches("\\d{0,10}")){
+				if(String.valueOf( branchSum ).length() > 10 || String.valueOf( commoditySum ).length() > 10){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
