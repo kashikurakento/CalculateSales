@@ -16,25 +16,25 @@ import java.util.Map.Entry;
 
 public class CalculateSales {
 //読込メソッド
-	public static boolean fileIn(String dirPath,String filename,String braORcom,String regex,
+	public static boolean fileRead(String dirPath,String fileName,String errorMessage,String regex,
 			HashMap<String, String> name, HashMap<String, Long> sale){
 		BufferedReader br = null;
 		try {
-			File file = new File(dirPath,filename);
+			File file = new File(dirPath,fileName);
 			if (!file.exists()) {
-				System.out.println(braORcom + "定義ファイルが存在しません");
+				System.out.println(errorMessage + "定義ファイルが存在しません");
 				return false;
 			}
 			br = new BufferedReader(new FileReader(file));
 			String s;
 			while((s = br.readLine()) != null) {
-				String[] codeANDname = s.split(",");
-				if(!codeANDname[0].matches(regex) || codeANDname.length != 2) {
-					System.out.println(braORcom + "定義ファイルのフォーマットが不正です");
+				String[] nameSplit = s.split(",");
+				if(!nameSplit[0].matches(regex) || nameSplit.length != 2) {
+					System.out.println(errorMessage + "定義ファイルのフォーマットが不正です");
 					return false;
 				}
-				name.put(codeANDname[0],codeANDname[1]);
-				sale.put(codeANDname[0],0L);
+				name.put(nameSplit[0],nameSplit[1]);
+				sale.put(nameSplit[0],0L);
 			}
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
@@ -52,7 +52,7 @@ public class CalculateSales {
 		return true;
 	}
 //出力メソッド
-	public static boolean  fileOut(String dirPath, String fileName, HashMap<String, String> name, HashMap<String, Long> sale){
+	public static boolean  fileWrite(String dirPath, String fileName, HashMap<String, String> name, HashMap<String, Long> sale){
 		List<Map.Entry<String,Long>> entries = new ArrayList<Map.Entry<String,Long>>(sale.entrySet());
 		Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
 			public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
@@ -90,67 +90,67 @@ public class CalculateSales {
 			return;
 		}
 		BufferedReader br = null;
-		HashMap<String, String> branchname = new HashMap<String, String>();
-		HashMap<String, String> commodityname = new HashMap<String, String>();
-		HashMap<String, Long> branchsale = new HashMap<String, Long>();
-		HashMap<String, Long> commoditysale = new HashMap<String, Long>();
-		if(!fileIn(args[0],"branch.lst","支店","\\d{3}",branchname,branchsale)){
+		HashMap<String, String> branchName = new HashMap<String, String>();
+		HashMap<String, String> commodityName = new HashMap<String, String>();
+		HashMap<String, Long> branchSale = new HashMap<String, Long>();
+		HashMap<String, Long> commoditySale = new HashMap<String, Long>();
+		if(!fileRead(args[0],"branch.lst","支店","\\d{3}",branchName,branchSale)){
 			return;
 		}
-		if(!fileIn(args[0],"commodity.lst","商品","\\w{8}",commodityname,commoditysale)){
+		if(!fileRead(args[0],"commodity.lst","商品","\\w{8}",commodityName,commoditySale)){
 			return;
 		}
 //売上集計
 		try{
 			File file = new File(args[0]);
 			File fileAll[] = file.listFiles();
-			List<File> filercd  = new ArrayList<File>();
+			List<File> fileRcd  = new ArrayList<File>();
 			for(int i = 0;i < fileAll.length; i++){
 				if(fileAll[i].isFile() && fileAll[i].getName().matches("\\d{8}.rcd") ){
-					filercd.add(fileAll[i]);
+					fileRcd.add(fileAll[i]);
 				}
 			}
-			for(int i = 1;i < filercd.size(); i++){
-				int n = Integer.parseInt(filercd.get(i -1).getName().substring(0,8));
-				int m = Integer.parseInt(filercd.get(i).getName().substring(0,8));
+			for(int i = 1;i < fileRcd.size(); i++){
+				int n = Integer.parseInt(fileRcd.get(i -1).getName().substring(0,8));
+				int m = Integer.parseInt(fileRcd.get(i).getName().substring(0,8));
 				if(m - n != 1){
 					System.out.println( "売上ファイル名が連番になっていません");
 					return;
 				}
 			}
-			for(int i = 0;i < filercd.size();i++){
-				br = new BufferedReader(new FileReader(filercd.get(i)));
+			for(int i = 0;i < fileRcd.size();i++){
+				br = new BufferedReader(new FileReader(fileRcd.get(i)));
 				String s;
-				List<String> rcdRead = new ArrayList<String>();
+				List<String> rcdReadLine = new ArrayList<String>();
 				while((s = br.readLine()) != null) {
-					rcdRead.add(s);
+					rcdReadLine.add(s);
 				}
-				if (rcdRead.size() != 3){
+				if (rcdReadLine.size() != 3){
 					System.out.println(fileAll[i].getName() + "のフォーマットが不正です");
 					return;
 				}
-				if(branchname.get(rcdRead.get(0)) == null){
+				if(branchName.get(rcdReadLine.get(0)) == null){
 					System.out.println(fileAll[i].getName() + "の支店コードが不正です");
 					return;
 				}
-				if(commodityname.get(rcdRead.get(1)) == null){
+				if(commodityName.get(rcdReadLine.get(1)) == null){
 					System.out.println(fileAll[i].getName() + "の商品コードが不正です");
 					return;
 				}
-				if(!rcdRead.get(2).matches("^[0-9]+$")){
+				if(!rcdReadLine.get(2).matches("^[0-9]+$")){
 					System.out.println("予期せぬエラーが発生しました");
 					return;
 				}
-				Long branchsum = branchsale.get(rcdRead.get(0));
-				branchsum += Long.parseLong(rcdRead.get(2));
-				Long commoditysum = commoditysale.get(rcdRead.get(1));
-				commoditysum += Long.parseLong(rcdRead.get(2));
-				if(!String.valueOf( branchsum ).matches("\\d{0,10}") || !String.valueOf( commoditysum ).matches("\\d{0,10}")){
+				Long branchSum = branchSale.get(rcdReadLine.get(0));
+				branchSum += Long.parseLong(rcdReadLine.get(2));
+				Long commoditySum = commoditySale.get(rcdReadLine.get(1));
+				commoditySum += Long.parseLong(rcdReadLine.get(2));
+				if(!String.valueOf( branchSum ).matches("\\d{1,10}") || !String.valueOf( commoditySum ).matches("\\d{0,10}")){
 					System.out.println("合計金額が10桁を超えました");
 					return;
 				}
-				branchsale.put(rcdRead.get(0), branchsum);
-				commoditysale.put(rcdRead.get(1), commoditysum);
+				branchSale.put(rcdReadLine.get(0), branchSum);
+				commoditySale.put(rcdReadLine.get(1), commoditySum);
 			}
 		} catch(IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
@@ -165,10 +165,10 @@ public class CalculateSales {
 				}
 			}
 		}
-		if(!fileOut(args[0],"branch.out",branchname, branchsale)){
+		if(!fileWrite(args[0],"branch.out",branchName, branchSale)){
 			return;
 		}
-		if(!fileOut(args[0],"commodity.out",commodityname, commoditysale)){
+		if(!fileWrite(args[0],"commodity.out",commodityName, commoditySale)){
 			return;
 		}
 	}
