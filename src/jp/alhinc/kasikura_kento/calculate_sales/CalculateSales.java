@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class CalculateSales {
-//引数を渡しファイルを読み込むメソッド
+//読込メソッド
 	public static boolean fileIn(String dirPath,String filename,String braORcom,String regex,
 			HashMap<String, String> name, HashMap<String, Long> sale){
 		BufferedReader br = null;
@@ -51,8 +51,7 @@ public class CalculateSales {
 		}
 		return true;
 	}
-
-//引数を渡しファイルを出力するメソッド
+//出力メソッド
 	public static boolean  fileOut(String dirPath, String fileName, HashMap<String, String> name, HashMap<String, Long> sale){
 		List<Map.Entry<String,Long>> entries = new ArrayList<Map.Entry<String,Long>>(sale.entrySet());
 		Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
@@ -83,7 +82,6 @@ public class CalculateSales {
 		}
 		return true;
 	}
-
 
 //メインメソッド
 	public static void main(String[] args) {
