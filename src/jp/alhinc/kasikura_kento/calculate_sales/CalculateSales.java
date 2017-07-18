@@ -25,8 +25,7 @@ public class CalculateSales {
 				System.out.println(braORcom + "定義ファイルが存在しません");
 				return false;
 			}
-			FileReader fr = new FileReader(file);
-			br = new BufferedReader(fr);
+			br = new BufferedReader(new FileReader(file));
 			String s;
 			while((s = br.readLine()) != null) {
 				String[] codeANDname = s.split(",");
@@ -63,9 +62,8 @@ public class CalculateSales {
 		});
 		BufferedWriter bw =null;
 		try{
-			File bsf = new File(dirPath, fileName);
-			FileWriter fw = new FileWriter(bsf);
-			bw = new BufferedWriter(fw);
+			File file = new File(dirPath, fileName);
+			bw = new BufferedWriter(new FileWriter(file));
 			for (Entry<String,Long> s : entries){
 				bw.write(s.getKey() + "," + name.get(s.getKey()) + "," + s.getValue() + System.lineSeparator());
 			}
@@ -87,16 +85,12 @@ public class CalculateSales {
 	}
 
 
-
-
-
 //メインメソッド
 	public static void main(String[] args) {
 		if(args.length != 1){
 			System.out.println("予期せぬエラーが発生しました");
 			return;
 		}
-		FileReader fr = null;
 		BufferedReader br = null;
 		HashMap<String, String> branchname = new HashMap<String, String>();
 		HashMap<String, String> commodityname = new HashMap<String, String>();
@@ -127,8 +121,7 @@ public class CalculateSales {
 				}
 			}
 			for(int i = 0;i < filercd.size();i++){
-				fr = new FileReader(filercd.get(i));
-				br = new BufferedReader(fr);
+				br = new BufferedReader(new FileReader(filercd.get(i)));
 				String s;
 				List<String> rcdRead = new ArrayList<String>();
 				while((s = br.readLine()) != null) {
@@ -168,14 +161,6 @@ public class CalculateSales {
 			if(br != null){
 				try{
 					br.close();
-				} catch(IOException e) {
-					System.out.println("予期せぬエラーが発生しました");
-					return;
-				}
-			}
-			if(fr != null){
-				try{
-					fr.close();
 				} catch(IOException e) {
 					System.out.println("予期せぬエラーが発生しました");
 					return;
