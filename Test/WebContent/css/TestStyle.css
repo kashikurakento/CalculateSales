@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+     form{background: #eee;width:400px;}
+    form div{padding: 10px 20px;}
+
+.text, textarea, .dropdown{
+    border:1px solid #777;
+    padding: 5px;
+    color: #999;
+
+    /* Webkit */
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#eee),
+        to(#fff)
+        );
+
+    -webkit-border-radius: 5px;
+}
